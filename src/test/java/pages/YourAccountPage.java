@@ -13,7 +13,7 @@ public class YourAccountPage {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
-
+    @FindBy(name = "s") WebElement searchProcut;
     @FindBy(xpath = "//a[@id='addresses-link']//span[1]")
     WebElement AddressesBtn;
 
@@ -22,4 +22,11 @@ public class YourAccountPage {
             AddressesBtn.click();
         }else throw new AssertionError("Couldn't click on Addresses Button");
     }
+
+    public void searchProduct(String product){
+        searchProcut.clear();
+        searchProcut.sendKeys(product);
+        searchProcut.submit();
+    }
+
 }
