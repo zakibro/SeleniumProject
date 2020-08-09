@@ -100,7 +100,7 @@ public class ProductPage {
         }
     }
 
-    public void isTotalPriceCorrect(int quantity) {
+    public double isTotalPriceCorrect(int quantity) {
         //get total amount to pay from the website and get price per unit
         String totalPrice = totalAmountToPay.getText().replaceAll("Total products: €", "");
         String priceWithout€ = price.getText().replaceAll("€", "");
@@ -112,6 +112,7 @@ public class ProductPage {
         if (!((pricePerUnit * quantity) == totalPriceDouble)) {
             throw new AssertionError("The total price is wrong");
         }
+        return totalPriceDouble;
     }
 
     public void proceedToCheckout() {

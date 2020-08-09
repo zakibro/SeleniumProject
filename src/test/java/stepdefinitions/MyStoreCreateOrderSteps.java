@@ -22,6 +22,10 @@ public class MyStoreCreateOrderSteps {
     private ProductPage productPage;
     private CartPage cartPage;
     private CheckoutPage checkoutPage;
+    private OrderConfirmationPage orderConfirmationPage;
+    private OrderHistoryPage orderHistoryPage;
+    private double totalPrice;
+    private String orderId;
     private static final String EMAIL = "paweltestuje@gmail.com";
     private static final String PASSWORD = "password123";
     private static final String LOGGED_USER = "Paweł Mazur";
@@ -72,8 +76,9 @@ public class MyStoreCreateOrderSteps {
         productPage.enterQuantity(quantity);
     }
 
-    @And("^user clicks Add to Cart Button$")
-    public void userClicksAddToCartButton() {
+
+    @And("^user adds the product to cart$")
+    public void userAddsTheProductToCart() {
         productPage.addToCart();
     }
 
@@ -89,7 +94,8 @@ public class MyStoreCreateOrderSteps {
 
     @And("^price is correctly calculated based on \"([^\"]*)\"$")
     public void priceIsCorrectlyCalculated(int quantity) {
-        productPage.isTotalPriceCorrect(quantity);
+        //save total price for the order if correct, for future assertions
+        totalPrice = productPage.isTotalPriceCorrect(quantity);
     }
 
     @When("^user proceeds to checkout$")
@@ -126,15 +132,30 @@ public class MyStoreCreateOrderSteps {
 
     @Then("^user sees order confirmation message \"([^\"]*)\"$")
     public void userSeesOrderConfirmationMessage(String message) {
+        orderConfirmationPage = new OrderConfirmationPage(driver);
+        Assert.assertEquals(message, orderConfirmationPage.getConfirmationMessage());
+        orderId = orderConfirmationPage.getOrderId();
 
-        String confirmationMessage = driver.findElement(By.xpath("//h3[@class='h1 card-title']")).
-                getText().replaceAll("\uE876", "");
-
-        Assert.assertEquals(message, confirmationMessage);
         takeScreenShot(driver, "src/test/java/stepdefinitions/screenshot.png");
+
     }
 
-    public void takeScreenShot(WebDriver webdriver, String fileWithPath){
+    @When("^user goes to order history and details page$")
+    public void userGoesToOrderHistoryAndDetailsPage() {
+        loginPage.goToYourAccountPage();
+        yourAccountPage.goToOrderHistoryPage();
+    }
+
+    @Then("^the created order is on top of the list with status \"([^\"]*)\"$")
+    public void theCreatedOrderIsCorrectlyAddedToHistory(String status) {
+
+        orderHistoryPage = new OrderHistoryPage(driver);
+        Assert.assertEquals(status, orderHistoryPage.getOrderStatus());
+        Assert.assertEquals(totalPrice, orderHistoryPage.getTotalPrice(), 0.001);
+        Assert.assertEquals(orderId, orderHistoryPage.getOrderId());
+    }
+
+    private void takeScreenShot(WebDriver webdriver, String fileWithPath) {
         //Convert web driver object to TakeScreenshot
         TakesScreenshot scrShot = ((TakesScreenshot) webdriver);
         //Call getScreenshotAs method to create image file

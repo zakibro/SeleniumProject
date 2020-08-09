@@ -6,7 +6,7 @@ Feature: Create and order
     And discount for the product is 20%
     When user selects size "<size>"
     And user selects quantity "<quantity>"
-    And user clicks Add to Cart Button
+    And user adds the product to cart
     Then product with quantity "<quantity>" have been successfully added to cart
     And user sees products has been added message "Product successfully added to your shopping cart"
     And price is correctly calculated based on "<quantity>"
@@ -16,6 +16,8 @@ Feature: Create and order
     And selects the payment methods
     And confirms the order
     Then user sees order confirmation message "YOUR ORDER IS CONFIRMED"
+    When user goes to order history and details page
+    Then the created order is on top of the list with status "Awaiting check payment"
 
     Examples:
       | size | quantity |

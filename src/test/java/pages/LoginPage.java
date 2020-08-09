@@ -37,4 +37,11 @@ public class LoginPage {
     public String getLoggedUsername() {
         return userName.getText();
     }
+
+    public void goToYourAccountPage(){
+        if (userName.isEnabled()){
+            userName.click();
+        }
+        else throw  new AssertionError("Couldn't go to Your Account Page");
+    }
 }

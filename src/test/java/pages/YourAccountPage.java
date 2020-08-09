@@ -13,20 +13,31 @@ public class YourAccountPage {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
-    @FindBy(name = "s") WebElement searchProcut;
+
+    @FindBy(name = "s")
+    WebElement searchProcut;
     @FindBy(xpath = "//a[@id='addresses-link']//span[1]")
     WebElement AddressesBtn;
+    @FindBy(id = "history-link")
+    WebElement orderHistoryBtn;
 
-    public void goToAddressespage(){
-        if (AddressesBtn.isDisplayed()){
+    public void goToAddressespage() {
+        if (AddressesBtn.isDisplayed()) {
             AddressesBtn.click();
-        }else throw new AssertionError("Couldn't click on Addresses Button");
+        } else throw new AssertionError("Couldn't click on Addresses Button");
     }
 
-    public void searchProduct(String product){
+    public void searchProduct(String product) {
         searchProcut.clear();
         searchProcut.sendKeys(product);
         searchProcut.submit();
+    }
+
+    public void goToOrderHistoryPage(){
+        if (orderHistoryBtn.isEnabled()){
+            orderHistoryBtn.click();
+        }
+        else throw new AssertionError("Couldn't go to order history page");
     }
 
 }
