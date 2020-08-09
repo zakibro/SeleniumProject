@@ -9,7 +9,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.*;
 import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -57,7 +56,6 @@ public class MyStoreCreateOrderSteps {
         if (goToProductPageLink.isDisplayed()) {
             goToProductPageLink.click();
         } else throw new AssertionError("Couldn't go to the product page");
-
     }
 
     @And("^discount for the product is (\\d+)%$")
@@ -116,7 +114,6 @@ public class MyStoreCreateOrderSteps {
     public void confirmsTheShippingMethod() {
         checkoutPage.pickFirstDeliveryOption();
         checkoutPage.confirmDelivery();
-
     }
 
     @And("^selects the payment methods$")
@@ -134,10 +131,10 @@ public class MyStoreCreateOrderSteps {
     public void userSeesOrderConfirmationMessage(String message) {
         orderConfirmationPage = new OrderConfirmationPage(driver);
         Assert.assertEquals(message, orderConfirmationPage.getConfirmationMessage());
+        //get orderId from confirmation page for future assertions -> order history page
         orderId = orderConfirmationPage.getOrderId();
 
         takeScreenShot(driver, "src/test/java/stepdefinitions/screenshot.png");
-
     }
 
     @When("^user goes to order history and details page$")
@@ -148,7 +145,6 @@ public class MyStoreCreateOrderSteps {
 
     @Then("^the created order is on top of the list with status \"([^\"]*)\"$")
     public void theCreatedOrderIsCorrectlyAddedToHistory(String status) {
-
         orderHistoryPage = new OrderHistoryPage(driver);
         Assert.assertEquals(status, orderHistoryPage.getOrderStatus());
         Assert.assertEquals(totalPrice, orderHistoryPage.getTotalPrice(), 0.001);
@@ -168,6 +164,5 @@ public class MyStoreCreateOrderSteps {
         } catch (IOException e) {
             System.err.println("Something went wrong during copying");
         }
-
     }
 }
