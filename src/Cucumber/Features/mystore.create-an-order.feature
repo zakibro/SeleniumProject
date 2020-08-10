@@ -9,7 +9,7 @@ Feature: Create and order
     And user adds the product to cart
     Then product with quantity "<quantity>" have been successfully added to cart
     And user sees products has been added message "Product successfully added to your shopping cart"
-    And price is correctly calculated based on "<quantity>"
+    And price is correctly calculated based on quantity "<quantity>"
     When user proceeds to checkout
     And confirms the address
     And confirms the shipping method

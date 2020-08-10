@@ -36,24 +36,18 @@ public class ProductPage {
     @FindBy(xpath = "//a[@class='btn btn-primary']")
     WebElement proceedToCheckoutBtn;
 
-    public void isTheDiscountCorrect(int discountAmount) {
-        if (!discount.getText().equals("SAVE " + discountAmount + "%")) {
-            throw new AssertionError("The discount label is not correct");
-        }
-        //parse int `discountAmount` to double
-        double discountAmountDouble = (double) discountAmount;
-        //strip `€` from the prices
-        String regularPriceWithout€ = regularPrice.getText().replaceAll("€", "");
+    public String getTheDiscountLabel() {
+        return discount.getText();
+    }
+
+    public double getPriceAfterDiscount() {
         String priceWithout€ = price.getText().replaceAll("€", "");
+        return Double.parseDouble(priceWithout€);
+    }
 
-        //prase strings to doubles
-        double regularPriceWithout€Double = Double.parseDouble(regularPriceWithout€);
-        double priceWithout€Double = Double.parseDouble(priceWithout€);
-
-        //assert the discount is correctly calculated
-        if (!((priceWithout€Double / regularPriceWithout€Double * 100) == (100 - discountAmountDouble))) {
-            throw new AssertionError("The discount is not correctly calculated!");
-        }
+    public double getPriceBeforeDiscount() {
+        String regularPriceWithout€ = regularPrice.getText().replaceAll("€", "");
+        return Double.parseDouble(regularPriceWithout€);
     }
 
     public void selectSize(String size) {
@@ -79,18 +73,10 @@ public class ProductPage {
         } else throw new AssertionError("Couldn't click add to cart button");
     }
 
-    public void isTheProductAddedToCart(String quantity) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            System.err.println("Something went wrong during checking if the quantities are correct");
-        }
-        //strips the string to table and checks if the number of prdocuts is correct
+    public String getNumberOfProductsInCart() {
         String numberOfProductsInCartString = numberOfProductsInCart.getText();
         String numberOfProductsInCartTable[] = numberOfProductsInCartString.split(" ");
-        if (!numberOfProductsInCartTable[2].equals(quantity)) {
-            throw new AssertionError("The quantity is not correct");
-        }
+        return numberOfProductsInCartTable[2];
     }
 
     public void getProductAddedToCartConfirmation(String message) {
@@ -100,19 +86,14 @@ public class ProductPage {
         }
     }
 
-    public double isTotalPriceCorrect(int quantity) {
-        //get total amount to pay from the website and get price per unit
+    public double getPricePerUnit() {
+        String pricePerUnitWithout€ = price.getText().replaceAll("€", "");
+        return Double.parseDouble(pricePerUnitWithout€);
+    }
+
+    public double getTotalPrice() {
         String totalPrice = totalAmountToPay.getText().replaceAll("Total products: €", "");
-        String priceWithout€ = price.getText().replaceAll("€", "");
-
-        //parse to double
-        double totalPriceDouble = Double.parseDouble(totalPrice);
-        double pricePerUnit = Double.parseDouble(priceWithout€);
-
-        if (!((pricePerUnit * quantity) == totalPriceDouble)) {
-            throw new AssertionError("The total price is wrong");
-        }
-        return totalPriceDouble;
+        return Double.parseDouble(totalPrice);
     }
 
     public void proceedToCheckout() {

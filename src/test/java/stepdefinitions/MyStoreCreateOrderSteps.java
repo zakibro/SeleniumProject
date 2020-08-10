@@ -9,6 +9,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.*;
 import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -59,9 +60,12 @@ public class MyStoreCreateOrderSteps {
     }
 
     @And("^discount for the product is (\\d+)%$")
-    public void discountForTheProductIsCorrect(int percent) {
+    public void discountForTheProductIsCorrect(int discountAmount) {
         productPage = new ProductPage(driver);
-        productPage.isTheDiscountCorrect(percent);
+        Assert.assertEquals("SAVE " + discountAmount + "%", productPage.getTheDiscountLabel());
+        if (!((productPage.getPriceAfterDiscount() / productPage.getPriceBeforeDiscount() * 100) == (100 - discountAmount))) {
+            throw new AssertionError("The discount is not correctly calculated!");
+        }
     }
 
     @When("^user selects size \"([^\"]*)\"$")
@@ -81,8 +85,9 @@ public class MyStoreCreateOrderSteps {
     }
 
     @Then("^product with quantity \"([^\"]*)\" have been successfully added to cart$")
-    public void productAddedToCart(String quantity) {
-        productPage.isTheProductAddedToCart(quantity);
+    public void productAddedToCart(String quantity) throws InterruptedException {
+        Thread.sleep(1000);
+        Assert.assertEquals(quantity, productPage.getNumberOfProductsInCart());
     }
 
     @And("^user sees products has been added message \"([^\"]*)\"$")
@@ -90,10 +95,11 @@ public class MyStoreCreateOrderSteps {
         productPage.getProductAddedToCartConfirmation(message);
     }
 
-    @And("^price is correctly calculated based on \"([^\"]*)\"$")
+    @And("^price is correctly calculated based on quantity \"([^\"]*)\"$")
     public void priceIsCorrectlyCalculated(int quantity) {
         //save total price for the order if correct, for future assertions
-        totalPrice = productPage.isTotalPriceCorrect(quantity);
+        totalPrice = productPage.getTotalPrice();
+        Assert.assertTrue(productPage.getPricePerUnit() * quantity == productPage.getTotalPrice());
     }
 
     @When("^user proceeds to checkout$")
