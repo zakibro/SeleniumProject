@@ -18,6 +18,7 @@ Feature: Create and order
     Then user sees order confirmation message "YOUR ORDER IS CONFIRMED"
     When user goes to order history and details page
     Then the created order is on top of the list with status "Awaiting check payment"
+    And closes the browser
 
     Examples:
       | size | quantity |

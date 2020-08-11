@@ -171,4 +171,9 @@ public class MyStoreCreateOrderSteps {
             System.err.println("Something went wrong during copying");
         }
     }
+
+    @And("^closes the browser$")
+    public void closesTheBrowser() {
+        driver.quit();
+    }
 }
