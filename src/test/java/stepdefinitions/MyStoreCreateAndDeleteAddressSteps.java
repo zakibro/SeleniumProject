@@ -25,6 +25,7 @@ public class MyStoreCreateAndDeleteAddressSteps {
     private static final String EMAIL = "paweltestuje@gmail.com";
     private static final String PASSWORD = "password123";
     private static final String LOGGED_USER = "Paweł Mazur";
+    private static final String COUNTRY = "United Kingdom";
 
     @Given("^user is logged in my store$")
     public void userIsLoggedInMyStore() {
@@ -88,7 +89,8 @@ public class MyStoreCreateAndDeleteAddressSteps {
     public void theAddressHasBeenCorrectlyAdded(String alias, String company, String address,
                                                 String postcode, String city, String phone) {
         //assert the details of added address are correct
-        Assert.assertTrue(addressesPage.isAddressCorrectlyAdded(alias, company, address, city, postcode, phone));
+        Assert.assertEquals(alias + " " + LOGGED_USER + " " + company + " " + address + " " + city
+                + " " + postcode + " " + COUNTRY + " " + phone, addressesPage.getAddressDetails());
         Assert.assertEquals(numberOfAddressesOnAccount + 1, addressesPage.getNumberOfAddressesOnTheAccount());
     }
 

@@ -36,24 +36,13 @@ public class AddressesPage {
         } else throw new AssertionError("Couldn't click on Create New Address Button");
     }
 
-    public int getNumberOfAddressesOnTheAccount(){
+    public int getNumberOfAddressesOnTheAccount() {
         return addresses.size();
     }
 
-    public boolean isAddressCorrectlyAdded(String alias, String company, String address,
-                                           String city, String postcode, String phone) {
-        boolean isAddressCorrectlyAdded = false;
-        String addressDetails[] = addresses.get(addresses.size() - 1).getText().split("\n");
-        if (
-                addressDetails[0].equals(alias)
-                        && addressDetails[2].equals(company)
-                        && addressDetails[3].equals(address)
-                        && addressDetails[4].equals(city)
-                        && addressDetails[5].equals(postcode)
-                        && addressDetails[7].equals(phone)) {
-            isAddressCorrectlyAdded = true;
-        }
-        return isAddressCorrectlyAdded;
+    public String getAddressDetails() {
+        String addressDetailsWithoutNewLines = addresses.get(addresses.size() - 1).getText().replaceAll("\n", " ");
+        return addressDetailsWithoutNewLines.replaceAll(" \uE254 Update \uE872 Delete", "");
     }
 
     public void deleteAddedAddress() {
