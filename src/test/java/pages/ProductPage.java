@@ -79,11 +79,8 @@ public class ProductPage {
         return numberOfProductsInCartTable[2];
     }
 
-    public void getProductAddedToCartConfirmation(String message) {
-        String test = productsAddedToCartMessage.getText().replaceAll("\uE876", "");
-        if (!test.equals(message)) {
-            throw new AssertionError("The products added message is not correct");
-        }
+    public String getProductAddedToCartConfirmation() {
+        return productsAddedToCartMessage.getText().replaceAll("\uE876", "");
     }
 
     public double getPricePerUnit() {

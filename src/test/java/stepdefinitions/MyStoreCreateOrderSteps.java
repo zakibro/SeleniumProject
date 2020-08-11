@@ -92,7 +92,7 @@ public class MyStoreCreateOrderSteps {
 
     @And("^user sees products has been added message \"([^\"]*)\"$")
     public void userSeesProductsHasBeenAddedMessage(String message) {
-        productPage.getProductAddedToCartConfirmation(message);
+        Assert.assertEquals(message, productPage.getProductAddedToCartConfirmation());
     }
 
     @And("^price is correctly calculated based on quantity \"([^\"]*)\"$")
