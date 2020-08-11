@@ -31,7 +31,7 @@ public class OrderHistoryPage {
         return orderStatus.getText();
     }
 
-    public double getTotalPrice(){
+    public double getTotalPrice() {
         String totalPriceWithout€ = totalPrice.getText().replaceAll("€", "");
         return Double.parseDouble(totalPriceWithout€);
     }

@@ -67,10 +67,10 @@ public class CheckoutPage {
         } else throw new AssertionError("Couldn't confirm terms and conditions");
     }
 
-    public void confirmTheOrder(){
-        if (confirmOrderBtn.isEnabled()){
+    public void confirmTheOrder() {
+        if (confirmOrderBtn.isEnabled()) {
             confirmOrderBtn.click();
-        }else throw new AssertionError("Couldn't confirm the order");
+        } else throw new AssertionError("Couldn't confirm the order");
     }
 
 }

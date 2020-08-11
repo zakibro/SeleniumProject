@@ -14,13 +14,17 @@ public class LoginPage {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(name="email") WebElement loginInput;
+    @FindBy(name = "email")
+    WebElement loginInput;
 
-    @FindBy(name="password") WebElement passwordInput;
+    @FindBy(name = "password")
+    WebElement passwordInput;
 
-    @FindBy(id="submit-login") WebElement signInButton;
+    @FindBy(id = "submit-login")
+    WebElement signInButton;
 
-    @FindBy(xpath="//a[@class='account']") WebElement userName;
+    @FindBy(xpath = "//a[@class='account']")
+    WebElement userName;
 
     public void loginAs(String email, String password) {
         loginInput.click();
@@ -38,10 +42,9 @@ public class LoginPage {
         return userName.getText();
     }
 
-    public void goToYourAccountPage(){
-        if (userName.isEnabled()){
+    public void goToYourAccountPage() {
+        if (userName.isEnabled()) {
             userName.click();
-        }
-        else throw  new AssertionError("Couldn't go to Your Account Page");
+        } else throw new AssertionError("Couldn't go to Your Account Page");
     }
 }

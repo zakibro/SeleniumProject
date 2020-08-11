@@ -33,11 +33,10 @@ public class YourAccountPage {
         searchProcut.submit();
     }
 
-    public void goToOrderHistoryPage(){
-        if (orderHistoryBtn.isEnabled()){
+    public void goToOrderHistoryPage() {
+        if (orderHistoryBtn.isEnabled()) {
             orderHistoryBtn.click();
-        }
-        else throw new AssertionError("Couldn't go to order history page");
+        } else throw new AssertionError("Couldn't go to order history page");
     }
 
 }

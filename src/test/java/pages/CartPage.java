@@ -17,8 +17,8 @@ public class CartPage {
     @FindBy(xpath = "//a[@class='btn btn-primary']")
     WebElement proceedToCheckoutBtn;
 
-    public void proceedToCheckout(){
-        if (proceedToCheckoutBtn.isEnabled()){
+    public void proceedToCheckout() {
+        if (proceedToCheckoutBtn.isEnabled()) {
             proceedToCheckoutBtn.click();
         } else throw new AssertionError("Couldn't click on proceed to checkout button on Cart Page");
     }
